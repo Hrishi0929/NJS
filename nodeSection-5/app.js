@@ -1,20 +1,21 @@
-// const yargs = require('yargs');
+const yargs = require('yargs');
 
-// const geocode = require('./geocode/geocode.js');
+const geocode = require('./geocode/geocode.js');
+const weather = require('./weather/weather.js');
 
-// const argv = yargs
-//   .options({
-//     a: {
-//       demand: true,
-//       alias: 'address',
-//       describe: 'Address to fetch weather for',
-//       string: true
-//     }
-//   })
-//   .help()
-//   .alias('help','h')
-//   .argv;
-// //console.log(argv);
+const argv = yargs
+  .options({
+    a: {
+      demand: true,
+      alias: 'address',
+      describe: 'Address to fetch weather for',
+      string: true
+    }
+  })
+  .help()
+  .alias('help','h')
+  .argv;
+//console.log(argv);
 
 // geocode.geocodeAddress(argv.address,(errorMessage,results) => {
 //   if(errorMessage){
@@ -24,20 +25,12 @@
 //   }
 // });
 
-const request = require('request');
-
-request({
-  url : 'https://api.darksky.net/forecast/5389768bf3982229c2020a51db6112dd/13.10197,77.5863591',
-  json: true
-},(error, response,body) => {
-  if(!error && response.statusCode === 200){
-  //printing the temperature from the dark sky api
-  console.log(`temperature: ${body.currently.temperature}`);
+weather.getWeather(13.10197,77.5863591,(error, weatherResults) => {
+  if (error) {
+    console.log(error);
   } else {
-    console.log('Unable to fetch weather.');
+    console.log(JSON.stringify(weatherResults,undefined, 2));
   }
-
 });
 
-//5389768bf3982229c2020a51db6112dd
 
